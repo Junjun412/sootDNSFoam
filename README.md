@@ -6,7 +6,7 @@ The thermodynamic properties and reaction kinetics are calculated using Cantera 
 
 We are continuously updating the solver, currently we focus on the soot model and the chemical reaction solver. Please read the documentation to install, compile and use.
 
-It was developed by Dr. Junjun Guo (King Abdullah University of Science and Technology) and Dr. Yihao Tang (University of Michigan).
+It was developed by Dr. Junjun Guo (junjun.guo@kaust.edu.sa; King Abdullah University of Science and Technology) and Dr. Yihao Tang (yhtang@umich.edu; University of Michigan).
 
 Publication related to this solver:
 
