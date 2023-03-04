@@ -1,0 +1,159 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+/*
+    p
+    {
+        solver          GAMG;
+        smoother        GaussSeidel;
+        tolerance       1e-6;
+        relTol          0.1;
+    }
+
+    "(U|k|omega|epsilon)"
+    {
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-6;
+        relTol          0.1;
+    }
+*/
+   "(p|p_init|pFluc|pCorr|rho)"
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-8;
+        relTol          1e-4;
+    }
+
+    "(p|p_init|pFluc|pCorr|rho)Final"
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-10;
+        relTol          1e-4;
+    }
+
+    "(rhoU|U|k|epsilon)"
+    {
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       1e-6;//1e-05;
+        relTol          1e-1;//0.1;
+    }
+
+    "(rhoU|U|k|epsilon)Final"
+    {
+        $U;
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       1e-6;//1e-05;
+        relTol          0;
+    }
+
+    //"(rhoZmix|rhoC|rhoEnth|M00|M01|M10|N0|rhoYPAH)" 
+    "(Yi|Y_*|Zmix|C|Enth|h|M00|M01|M10|N0|YPAH|Mom_0|Mom_1|Mom_2|Mom_3|Mom_4|Mom_5|Mom_6)" 
+    {
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       1e-7;//1e-05;
+        relTol          1e-1;//0.1;
+    } 
+    
+    //"(rhoZmix|rhoC|rhoEnth|M00|M01|M10|N0|rhoYPAH)Final"
+    "(Yi|Y_*|Zmix|C|Enth|h|M00|M01|M10|N0|YPAH|Mom_0|Mom_1|Mom_2|Mom_3|Mom_4|Mom_5|Mom_6)Final"
+    {
+        $Zmix;
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       1e-7;//1e-05;
+        relTol          0;
+    }
+    "Ii.*"
+    {
+        solver              GAMG;
+        tolerance           1e-4;
+        relTol              0;
+        smoother            symGaussSeidel;
+//        cacheAgglomeration  true;
+//        nCellsInCoarsestLevel   10;
+//        agglomerator        faceAreaPair;
+//        mergeLevels         1;
+        maxIter             10;
+//        nPreSweeps          0;
+        nPostSweeps         1;
+    }
+//    IiFinal
+//    {
+//	$Ii;
+//	relTol	0;
+//    }
+
+    Gi
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-05;
+        relTol          0.1;
+    }
+
+    GiFinal
+    {
+       $Gi;
+       relTol           0;
+    }
+}
+
+PIMPLE
+{
+    nOuterCorrectors         3;//1;
+    nCorrectors              2;//2;
+    nNonOrthogonalCorrectors 0;
+    pRefCell                 ;
+    pRefValue                ;
+    p_initRefCell            ;
+    p_initRefValue           ;
+}
+
+SIMPLE
+{
+    nNonOrthogonalCorrectors 0;
+//    consistent yes;
+    pRefCell        0;
+    pRefValue       101325;
+}
+
+relaxationFactors
+{
+    fields
+    {
+	p	0.3;
+	rho	0.3;
+    }
+    equations
+    {
+	".*"	0.05;
+	U	0.7;
+	h	0.05;
+//	Y	0.1;
+    }
+}
+
+
+// ************************************************************************* //

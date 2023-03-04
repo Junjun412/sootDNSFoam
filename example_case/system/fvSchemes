@@ -1,0 +1,122 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes
+{
+    default         Euler;
+//    default	    steadyState;
+}
+
+gradSchemes
+{
+    default         Gauss linear;
+    grad(U)         Gauss linear;
+    grad(Zmix)      Gauss linear;
+    grad(C)         Gauss linear;
+    grad(p)         Gauss midPoint;//Gauss linear;
+    grad(p_init)    Gauss linear;
+}
+
+divSchemes
+{
+//    div(Ji,Ii_h)    Gauss upwind;
+    div(Ji,Ii_h)    bounded Gauss linearUpwind grad(Ii_h);
+    //default                             Gauss linear;//Gauss limitedLinear 1;
+    div((phi|2),Zmix)                     Gauss limitedLinear 1;
+    div((phi|2),Zmix_0)                   Gauss limitedLinear 1;
+    div((phi|2),C)                        Gauss limitedLinear 1;
+    div((phi|2),C_0)                      Gauss limitedLinear 1;
+    div((phi|2),Yi)                       Gauss upwind; //limitedLinear 1;   //upwind
+    div((phi|2),h)			  Gauss upwind; //limitedLinear 1; //upwind
+    div((phi|2),h_0)			  Gauss upwind; //limitedLinear 1; //upwind
+    div((phi_correct|2),Yi)               Gauss upwind; //limitedLinear 1;
+    div((phi_correct|2),h)		  Gauss upwind; //limitedLinear 1;
+    div((phi_correct|2),h_0)		  Gauss upwind; //limitedLinear 1;
+    div(((phi+phi_0)|4),U)                Gauss localBlended limitedLinear 1 midPoint;//Gauss midPoint; // upwind
+    div(((phi+phi_0)|4),U_0)              Gauss localBlended limitedLinear 1 midPoint;//Gauss midPoint; // upwind
+    div(((muEff*0.5)*dev2(T(grad(U)))))   Gauss linear;
+    div(((muEff*0.5)*dev2(T(grad(U_0))))) Gauss linear;
+    div((muEff*dev2(T(grad(U)))))         Gauss linear;
+    div((phi|2),Mom_0)                    Gauss limitedLinear 1;
+    div((phi|2),Mom_0_0)                  Gauss limitedLinear 1;
+    div((phi|2),Mom_1)                    Gauss limitedLinear 1;
+    div((phi|2),Mom_1_0)                  Gauss limitedLinear 1;
+    div((phi|2),Mom_2)                    Gauss limitedLinear 1;
+    div((phi|2),Mom_2_0)                  Gauss limitedLinear 1;
+    div((phi|2),Mom_3)                    Gauss limitedLinear 1;
+    div((phi|2),Mom_3_0)                  Gauss limitedLinear 1;
+    div((rhophi55|2),Mom_0)               Gauss limitedLinear 1;
+    div((rhophi55|2),Mom_0_0)             Gauss limitedLinear 1;
+    div((rhophi55|2),Mom_1)               Gauss limitedLinear 1;
+    div((rhophi55|2),Mom_1_0)             Gauss limitedLinear 1;
+    div((rhophi55|2),Mom_2)               Gauss limitedLinear 1;
+    div((rhophi55|2),Mom_2_0)             Gauss limitedLinear 1;
+    div((rhophi55|2),Mom_3)               Gauss limitedLinear 1;
+    div((rhophi55|2),Mom_3_0)             Gauss limitedLinear 1;
+    div((rhophi55|2),Mom_4)               Gauss limitedLinear 1;
+    div((rhophi55|2),Mom_4_0)             Gauss limitedLinear 1;
+    div((rhophi55|2),Mom_5)               Gauss limitedLinear 1;
+    div((rhophi55|2),Mom_5_0)             Gauss limitedLinear 1;
+    div((rhophi55|2),Mom_6)               Gauss limitedLinear 1;
+    div((rhophi55|2),Mom_6_0)             Gauss limitedLinear 1;
+    div(((interpolate((rhoTimeInterp*(U-((((0.275*mu)|T)|rho)*grad(T)))))&S)|2),Mom_0)    Gauss limitedLinear 1;
+    div(((interpolate((rhoTimeInterp*(U-((((0.275*mu)|T)|rho)*grad(T)))))&S)|2),Mom_0_0)  Gauss limitedLinear 1;
+    div(((interpolate((rhoTimeInterp*(U-((((0.275*mu)|T)|rho)*grad(T)))))&S)|2),Mom_1)    Gauss limitedLinear 1;
+    div(((interpolate((rhoTimeInterp*(U-((((0.275*mu)|T)|rho)*grad(T)))))&S)|2),Mom_1_0)  Gauss limitedLinear 1;
+    div(((interpolate((rhoTimeInterp*(U-((((0.275*mu)|T)|rho)*grad(T)))))&S)|2),Mom_2)    Gauss limitedLinear 1;
+    div(((interpolate((rhoTimeInterp*(U-((((0.275*mu)|T)|rho)*grad(T)))))&S)|2),Mom_2_0)  Gauss limitedLinear 1;
+    div(((interpolate((rhoTimeInterp*(U-((((0.275*mu)|T)|rho)*grad(T)))))&S)|2),Mom_3)    Gauss limitedLinear 1;
+    div(((interpolate((rhoTimeInterp*(U-((((0.275*mu)|T)|rho)*grad(T)))))&S)|2),Mom_3_0)  Gauss limitedLinear 1;
+    div(((interpolate((rhoTimeInterp*(U-((((0.275*mu)|T)|rho)*grad(T)))))&S)|2),Mom_4)    Gauss limitedLinear 1;
+    div(((interpolate((rhoTimeInterp*(U-((((0.275*mu)|T)|rho)*grad(T)))))&S)|2),Mom_4_0)  Gauss limitedLinear 1;
+    div(((interpolate((rhoTimeInterp*(U-((((0.275*mu)|T)|rho)*grad(T)))))&S)|2),Mom_5)    Gauss limitedLinear 1;
+    div(((interpolate((rhoTimeInterp*(U-((((0.275*mu)|T)|rho)*grad(T)))))&S)|2),Mom_5_0)  Gauss limitedLinear 1;
+    div(((interpolate((rhoTimeInterp*(U-((((0.275*mu)|T)|rho)*grad(T)))))&S)|2),Mom_6)    Gauss limitedLinear 1;
+    div(((interpolate((rhoTimeInterp*(U-((((0.275*mu)|T)|rho)*grad(T)))))&S)|2),Mom_6_0)  Gauss limitedLinear 1;
+}
+
+laplacianSchemes
+{
+    default                                      Gauss linear corrected;
+    laplacian((muEff|2),Zmix)                    Gauss linear corrected;
+    laplacian((muEff|2),Zmix_0)                  Gauss linear corrected;
+    laplacian((0.5*muEff),U)                     Gauss linear corrected;
+    laplacian(((0.5*muEff)*U_0))                 Gauss linear corrected;
+    laplacian((rhoTimeInterp*(1|A(U))),p)        Gauss midPoint limited 0.7;
+    laplacian((rhoTimeInterp*(1|A(U))),p_init)   Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default                         linear;
+    interpolate((rhoTimeInterp*U))  midPoint;
+    interpolate(rho)                linear;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+fluxRequired
+{
+    default         no;
+    p               ;
+    p_init          ;
+}
+
+// ************************************************************************* //

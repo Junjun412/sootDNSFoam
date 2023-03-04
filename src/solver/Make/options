@@ -1,0 +1,19 @@
+EXE_INC = \
+    -I$(LIB_SRC)/TurbulenceModels/dynCompSansThermoSF/turbulenceModel \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/meshTools/lnInclude \
+    -I/project/k1333/guoj0d/cantera/cantera_build_2.4.0_Icc/include \
+    -I/project/k1333/guoj0d/cantera/cantera_build_2.4.0_Icc/include/cantera/ext \
+    -I/sw/xc40cle7/boost/1.66/cle7_intel19.0.1/include
+
+EXE_LIBS = \
+    -ldyncompsansthermosfTurbulenceModel \
+    -lfiniteVolume \
+    -lmeshTools \
+    -lgfortran \
+    -lgfortranbegin \
+    -lpthread \
+    -L/project/k1459/guoj0d/OpenFOAM/guoj0d-7/applications/umDetailedChemSootFoamV1.1_HMOM_Chemkin_HETE_TStick_OTA/sootCode_MOM/lib -lsoot \
+    -L/project/k1333/guoj0d/cantera/cantera_build_2.4.0_Icc/lib64 -lcantera \
+    -L/project/k1333/guoj0d/OpenFOAM/guoj0d-2.3.0-Icc/applications/lapack-3.7.0 -llapack \
+    -L/project/k1333/guoj0d/OpenFOAM/guoj0d-2.3.0-Icc/applications/lapack-3.7.0 -lblas

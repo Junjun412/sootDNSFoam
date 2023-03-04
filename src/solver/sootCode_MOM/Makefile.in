@@ -1,0 +1,35 @@
+# Directories
+HOMEDIR = $(shell pwd)
+LIBDIR  = $(HOMEDIR)/lib
+MODDIR  = $(HOMEDIR)/mod
+OBJDIR  = $(HOMEDIR)/obj
+#BINDIR  = $(HOMEDIR)/bin
+VPATH   = $(LIBDIR) $(OBJDIR)
+
+# Compiler and archiver
+CC  = mpicc
+CXX = mpicxx
+F90 = gfortran
+#mpif90
+F77 = gfortran
+#mpif90
+LD  = gfortran
+#mpif90
+AR  = ar rcv
+RL  = ranlib
+
+# Compiler flags
+CFLAGS   = 
+F90FLAGS = -O3 -march=native -ffree-line-length-none
+#LDFLAGS  = -O2 –static –disable-shared –enable-static
+LDFLAGS  = -O2 static disable-shared enable-static
+INCFLAGS = #-I/opt/apps/gcc4_4/mvapich2/1.6/include
+LIBFLAGS =
+#MODFLAGS = -module $(MODDIR)
+MODFLAGS = -cpp -J $(MODDIR)
+DBGFLAGS = -g -ftrapuv -check bounds -debug all -nopad -CB -WB 
+OPTFLAGS = -O3 -xT
+
+# External libraries
+LAPACK_DIR = /project/k1333/guoj0d/OpenFOAM/guoj0d-2.3.0-Icc/applications/lapack-3.7.0
+LAPACK_LIB = -L$(LAPACK_DIR) -llapack

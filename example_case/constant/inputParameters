@@ -1,0 +1,33 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      tableSourceOnOff;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+DensityScaling      DensityScaling  [0  0 0 0 0 0 0] 0.0;//1-bring to freestream value, 0-back to table value
+freestreamDensity   freestreamDensity [1 -3 0 0 0 0 0] 0.0;
+smoothRho           0;
+poissonPEqn         1;
+
+// Below are specific for umDetailedChemFOAM
+press		    101325; //set this to your operating pressure
+canteraFile	    drm22.xml; //RedAramco110.xml; //drm22.xml; //chemical mechanism file in cantera format, make sure the .cti file is placed under the case directory. To build this file from a chemkin format mechanism, try the terminal cmd "ck2cti --help"
+inertSpecies	N2;
+initialize	false; //if you want to initialize enthalpy (and species) field from temperature field, enable this at the beginning of a simulation case, but remember to disable it after the enthalpy field has been developed.
+equilibrate	false; //true; //if you want to initialize from chemical equilibrium state, enable this at the beginning of a reaction case, but remember to disable it after the reaction field has been developed. OTHERWISE YOUR DEVELOPED FLOW FIELD WILL BE WIPED OUT!
+preffDiff       true; //if you want to solve species and enthalpy eqn with preferrential diffusion
+thermophoresis  true; // include thermophoresis in MomEqn.H
+radiationOnOff  true;
+
+// ************************************************************************* //

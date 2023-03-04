@@ -1,0 +1,168 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.7.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     umFlameletFoam;
+
+//startFrom       startTime;
+startime	latestTime;
+startTime       0.3809;
+
+stopAt          endTime;
+endTime         1.201;
+
+//writeControl    timeStep;
+//writeInterval   3;
+writeControl    adjustableRunTime;
+writeInterval   0.0001;
+purgeWrite      3;
+
+writeFormat     ascii;
+writePrecision  10;
+writeCompression uncompressed;
+
+timeFormat      general;
+timePrecision   8;
+runTimeModifiable yes;
+
+deltaT          5e-7;//1e-4;
+adjustTimeStep  yes;
+maxCo           0.09; //0.35
+
+timeFlag        1e-10;
+adjustFluxOut   true;
+predictGradp    false;
+solveYEqn       true;
+solvehEqn       true;
+solveMomEqn     true;
+includeSoot     true;
+rescaling       false;
+newton          false;
+Ulim            5;
+CsrcOnOff	1.0;// dictionary for on/off of source terms
+PAHsrcOnOff     1.0;
+YsrcOnOff       0.0;// soot
+MomSrcOnOff     1.0;// soot
+rhoSrcOnOff     1.0;// soot
+
+libs ( "libOpenFOAM.so");
+
+functions
+{
+    fieldMinMax
+    {
+        type fieldMinMax;
+        functionObjectLibs ("libfieldFunctionObjects.so");
+        log yes;
+        writeControl  timeStep;
+        mode magnitude;
+        fields
+        (
+            U
+            rho
+            p
+            T
+	    h
+	    Y_O2
+	    X_OH
+	    X_OH(S)
+	    X_C2H2
+	    X_CH4
+//	    X_A1
+	    X_H2O
+	    X_CO2
+	    X_A1
+	    X_C6H6
+	    X_A2
+	    X_A2R5
+	    X_A3
+	    X_A3R5
+	    X_A4
+            X_BEPYREN
+//            X_BAPYR
+//            X_BGHIPER
+//	    X_ANTHAN
+//	    X_CORONEN
+//	    src_Y_C2H2
+//	    src_Y_OH
+	//    srcSoot_O2
+//	    src_Y_A2R5
+//	    src_Y_A4
+//	    src_Y_ANTHAN
+//	    src_rho
+	    sootFV
+//	    sootND
+//	    sootDiam
+	    radSRC
+	  //  Mom_0
+	  //  Mom_1
+	  //  Mom_2
+	  //  Mom_3
+	  //  Mom_4
+	  //  Mom_5
+	  //  Mon_6
+//	    MomSrc_0
+//	    MomSrc_1
+	  //  MomSrc_2
+	 //   MomSrc_3
+	  //  MomSrc_4
+          //  MomSrc_5
+          //  MomSrc_6
+  //          sootFVsrcNucl
+	  //  sootFVsrcCoag
+//	    sootFVsrcCond
+//            sootFVsrcSurf
+//	    sootFVsrcOxid
+//	    sootNDsrcNucl
+//	    sootNDsrcCoag
+//	    wCoeff
+//	    aromconc
+//	    prodRate
+//	    Dimer_conc
+//            sootStar
+//            betaN
+//	    betaC
+	 //   t_chem
+        );
+    }
+/*
+    cuttingPlane
+    {
+        type                      surfaces;
+        functionObjectLibs        ("libsampling.so");
+        outputControl             timeStep;//outputTime;
+        outputInterval            200;
+        surfaceFormat             vtk; // foamFile; // vtk;
+        fields                    (U Y_N2 Y_O2 Y_H2O Y_H2 h);
+        interpolationScheme       cellPoint;
+	surfaces
+        (
+            zPlane
+            {
+                type                cuttingPlane;
+                planeType           pointAndNormal;
+                pointAndNormalDict
+                {
+                    basePoint       (0 0 0);
+                    normalVector    (0 0 1);
+                }
+                interpolate         true;
+            }
+    }
+*/
+}
+
+// ************************************************************************* //
